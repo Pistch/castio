@@ -1,0 +1,55 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended",
+    "plugin:jest/recommended"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module",
+    "allowImportExportEverywhere": true,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "es6": true,
+    "node": true,
+    "browser": true,
+    "jest": true
+  },
+  "rules": {
+    "prettier/prettier": ["error", {
+      // базовое ограничение на длину строки кода. строка может быть и длиннее
+      // (напр. путь в import/from, описание теста в describe/it и тд).
+      // увеличили чтобы в сагах небыло слишком много переносов из-за yield,
+      // call контекстов, списка эффектов в import и тд.
+      // @see max-len/code
+      "printWidth": 100,
+
+      // одинарные кавычки менее шумные чем двойные.
+      "singleQuote": true,
+
+      // не обрамлять внутренности объектов пробелами для компактности.
+      "bracketSpacing": false
+    }],
+
+    "max-len": ["error", {
+      // верхнее жесткое ограничение на длину строки кода.
+      // @see prettier/printWidth
+      "code": 130,
+
+      // ограничение на длину строки комментария.
+      // @see prettier/printWidth
+      "comments": 100,
+
+      // игнорируем длинные ссылки, тк. их нельзя переносить.
+      "ignoreUrls": true
+    }],
+
+    // предпочитаем const вместо let, для соответствия спецификации.
+    "prefer-const": ["error"]
+  }
+}

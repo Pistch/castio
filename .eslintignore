@@ -1,0 +1,9 @@
+.git/
+.idea/
+node_modules/
+.expo/
+test/**/coverage/
+server/i18n/
+**/.*
+android/
+ios/

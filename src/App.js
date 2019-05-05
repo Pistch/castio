@@ -1,9 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Permissions, FileSystem } from 'react-native-unimodules';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Permissions} from 'react-native-unimodules';
 import Sound from 'react-native-sound';
-import { AudioRecorder, AudioUtils } from 'react-native-audio';
+import {AudioRecorder, AudioUtils} from 'react-native-audio';
 
+import Api, {File} from './api/Api';
+
+const api = new Api('https://castio.space');
 const RECORDING_PATH = AudioUtils.DocumentDirectoryPath + '/ttt.aac';
 
 export default class App extends React.PureComponent {
@@ -26,16 +29,14 @@ export default class App extends React.PureComponent {
   _askForPermissions = async () => {
     AudioRecorder.requestAuthorization();
     const response = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
-    this.setState({
-      haveRecordingPermissions: response.status === 'granted',
-    });
+    this.setState({haveRecordingPermissions: response.status === 'granted'});
   };
 
   _handleButtonClick = () => {
     if (this.state.isRecording) {
-      return this._handleRecordingStop()
+      return this._handleRecordingStop();
     } else {
-      return this._handleRecordingStart()
+      return this._handleRecordingStart();
     }
   };
 
@@ -65,7 +66,7 @@ export default class App extends React.PureComponent {
   _handleRecordingStateUpdate = data => this.setState({currentTime: Math.floor(data.currentTime)});
 
   _handleFileClick = fileInfo => {
-    if (this.sounds[fileInfo.id]){
+    if (this.sounds[fileInfo.id]) {
       this.sounds[fileInfo.id].stop();
       this.sounds[fileInfo.id].play();
     } else {
@@ -83,32 +84,15 @@ export default class App extends React.PureComponent {
   };
 
   _uploadRecording = async () => {
-    const file = await FileSystem.getInfoAsync('file://' + RECORDING_PATH);
-    const body = new FormData();
+    const file = new File('file://' + RECORDING_PATH, 'recording.aac', 'audio/x-aac');
 
-    body.append('file', {
-      ...file,
-      name: 'recording.aac',
-      type: 'audio/x-aac',
-    });
-
-    await fetch('https://castio.space/recording', {
-      method: 'PUT',
-      body,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-      .then(r => r.json())
-      .then(response => console.log(response));
+    await api.put('/recording', {file});
 
     this._fetchRecordings();
   };
 
   _fetchRecordings = async () => {
-    const files = await fetch('https://castio.space/recording')
-      .then(r => r.json());
+    const files = await api.get('/recording');
 
     this.setState({files});
   };
@@ -121,9 +105,7 @@ export default class App extends React.PureComponent {
           onPress={() => this._handleFileClick(fileInfo)}
           key={fileInfo.id}
         >
-          <Text>
-            Запись {fileInfo.id}
-          </Text>
+          <Text>Запись {fileInfo.id}</Text>
         </TouchableOpacity>
       );
     });
@@ -132,16 +114,9 @@ export default class App extends React.PureComponent {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity
-          onPress={this._handleButtonClick}
-          style={styles.button}
-        >
+        <TouchableOpacity onPress={this._handleButtonClick} style={styles.button}>
           <Text>
-            {
-              !this.state.isRecording
-                ? 'Запись'
-                : `Остановить (${this.state.currentTime})`
-            }
+            {!this.state.isRecording ? 'Запись' : `Остановить (${this.state.currentTime})`}
           </Text>
         </TouchableOpacity>
         {this._renderRecordings()}
@@ -155,12 +130,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#F5FCFF'
   },
   button: {
     fontSize: 20,
     textAlign: 'center',
-    padding: 10,
+    padding: 10
   },
   recording: {
     fontSize: 20,
