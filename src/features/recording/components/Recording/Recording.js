@@ -1,15 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {Permissions} from 'react-native-unimodules';
 import Sound from 'react-native-sound';
 import {AudioRecorder, AudioUtils} from 'react-native-audio';
 
-import Api, {File} from './api/Api';
+import Api, {File} from 'castio/src/api/Api';
 
 const api = new Api('https://castio.space');
 const RECORDING_PATH = AudioUtils.DocumentDirectoryPath + '/ttt.aac';
 
-export default class App extends React.PureComponent {
+export default class App extends React.Component {
+  static propTypes = {
+    getRecordings: PropTypes.func.isRequired,
+
+    recordings: PropTypes.array
+  };
+
   state = {
     haveRecordingPermissions: false,
     currentTime: 0,
