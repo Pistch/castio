@@ -8,7 +8,8 @@ import {AudioRecorder, AudioUtils} from 'react-native-audio';
 import Api, {File} from 'castio/src/api/Api';
 
 const api = new Api('https://castio.space');
-const RECORDING_PATH = AudioUtils.DocumentDirectoryPath + '/ttt.aac';
+// const api = new Api('http://localhost:5000');
+const RECORDING_PATH = AudioUtils.CachesDirectoryPath + '/ttt.aac';
 
 export default class App extends React.Component {
   static propTypes = {

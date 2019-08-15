@@ -10,6 +10,9 @@ PODS:
   - EXPermissions (4.0.0):
     - UMCore
     - UMPermissionsInterface
+  - EXSQLite (6.0.0):
+    - UMCore
+    - UMFileSystemInterface
   - Folly (2018.10.22.00):
     - boost-for-react-native
     - DoubleConversion
@@ -93,6 +96,7 @@ DEPENDENCIES:
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXPermissions (from `../node_modules/expo-permissions/ios`)
+  - EXSQLite (from `../node_modules/expo-sqlite/ios`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - React/Core (from `../node_modules/react-native`)
@@ -138,6 +142,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-file-system/ios"
   EXPermissions:
     :path: "../node_modules/expo-permissions/ios"
+  EXSQLite:
+    :path: "../node_modules/expo-sqlite/ios"
   Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
@@ -181,6 +187,7 @@ SPEC CHECKSUMS:
   EXConstants: 9fef2c937fa0c8e6182b26cfea29e9a27fbb3009
   EXFileSystem: fc5260fcc461ad675ea1bb56a1d5be4c56e2b556
   EXPermissions: 615f9e58b861a3a82bbf9784483c2fb34e75c751
+  EXSQLite: 2ab71ca2a70661624a0ebca4dad9594ad80b23ff
   Folly: de497beb10f102453a1afa9edbf8cf8a251890de
   glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
   React: 130b87b2d5e2baac646954282cab87be986d98fc
