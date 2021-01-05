@@ -8,7 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "axios": "0.18.0",
+    "axios": "0.21.1",
     "expo-sqlite": "^6.0.0",
     "prop-types": "15.7.2",
     "react": "16.6.3",
